@@ -1,0 +1,25 @@
+{
+  "expo": {
+    "name": "DexForge",
+    "slug": "dexforge",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "android": {
+      "package": "app.dexforge.companion"
+    },
+    "plugins": [
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Allow DexForge to scan trading cards."
+        }
+      ],
+      [
+        "expo-location",
+        {
+          "locationWhenInUsePermission": "Allow DexForge to record your companion activity route."
+        }
+      ]
+    ]
+  }
+}
