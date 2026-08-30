@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: dexforge-api
+    runtime: docker
+    rootDir: backend
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /health
+    autoDeploy: false
+    envVars:
+      - key: PYTHONUNBUFFERED
+        value: "1"
+      - key: DEXFORGE_ENV
+        value: render
