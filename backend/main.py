@@ -8,14 +8,15 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from ar import router as ar_router
 from grading import provisional_grade
+from live_play import router as live_play_router
 from marketplace import router as marketplace_router
 from models import Deck, GoSession, GradeMetrics, GradeResult, MatchAction
 from payments import router as payments_router
 
 app = FastAPI(
     title="DexForge API",
-    version="0.2.0",
-    description="Independent Pokémon companion, card marketplace, AR layer and Raspberry Pi hub.",
+    version="0.3.0",
+    description="Independent Pokémon companion, authenticity layer, marketplace, AR/multiplayer platform and Raspberry Pi hub.",
 )
 
 allowed_origins = [
@@ -35,6 +36,7 @@ if allowed_origins:
 app.include_router(marketplace_router)
 app.include_router(payments_router)
 app.include_router(ar_router)
+app.include_router(live_play_router)
 
 GO_SESSIONS: list[dict] = []
 DECKS: dict[str, dict] = {}
@@ -43,7 +45,7 @@ MATCHES: dict[str, dict] = {}
 
 @app.get("/health")
 def health():
-    return {"status": "ok", "service": "dexforge", "version": "0.2.0"}
+    return {"status": "ok", "service": "dexforge", "version": "0.3.0"}
 
 
 @app.post("/api/cards/grade", response_model=GradeResult)
@@ -138,10 +140,11 @@ def pokemon_go_integration_status():
         "location_spoofing": False,
         "automation": False,
         "supported": [
-            "user-entered sessions",
+            "real-time user device location with consent",
+            "official public event/news data when available",
+            "user-entered or consented community observations",
             "route/activity notes",
             "collection planning",
             "raid/team notes",
-            "future legitimate public integrations",
         ],
     }
