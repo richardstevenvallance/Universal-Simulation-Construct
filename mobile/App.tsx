@@ -8,7 +8,7 @@ import {
   View,
 } from "react-native";
 
-const tabs = ["Dex", "GO", "Scan", "Collection", "Play"] as const;
+const tabs = ["Dex", "GO", "Scan", "Collection", "Market", "Play", "AR"] as const;
 type Tab = (typeof tabs)[number];
 
 export default function App() {
@@ -18,7 +18,7 @@ export default function App() {
       <View style={styles.header}>
         <Text style={styles.title}>DexForge</Text>
         <Text style={styles.subtitle}>
-          Pokédex • GO companion • cards • grading • TCG
+          Pokédex • GO • cards • swaps • marketplace • TCG • AR
         </Text>
       </View>
       <ScrollView horizontal contentContainerStyle={styles.tabs}>
@@ -71,7 +71,16 @@ function Panel({ tab }: { tab: Tab }) {
       [
         "Track owned copies and condition",
         "Build 60-card decks",
-        "Check legality against current rules data",
+        "Move a scanned card into swaps or play",
+      ],
+    ],
+    Market: [
+      "Swaps + Marketplace",
+      [
+        "List cards for swap, sale, or both",
+        "Offer cards plus an optional cash balance",
+        "Use provider-hosted checkout; DexForge never stores raw card details",
+        "Track offers, reservations and payment state",
       ],
     ],
     Play: [
@@ -80,6 +89,15 @@ function Panel({ tab }: { tab: Tab }) {
         "Two-player match state",
         "Turn/action log",
         "Grow the rules engine from structured card effects",
+      ],
+    ],
+    AR: [
+      "Augmented Reality",
+      [
+        "Inspect scanned cards in 3D",
+        "Project a tabletop battle or collection gallery",
+        "Support persistent location anchors through a later Niantic Spatial client",
+        "Keep provider tokens and private location data off the public frontend",
       ],
     ],
   };
