@@ -6,13 +6,16 @@ from datetime import datetime, timezone
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 
+from ar import router as ar_router
 from grading import provisional_grade
+from marketplace import router as marketplace_router
 from models import Deck, GoSession, GradeMetrics, GradeResult, MatchAction
+from payments import router as payments_router
 
 app = FastAPI(
     title="DexForge API",
-    version="0.1.0",
-    description="Independent Pokémon companion + Raspberry Pi hub.",
+    version="0.2.0",
+    description="Independent Pokémon companion, card marketplace, AR layer and Raspberry Pi hub.",
 )
 
 allowed_origins = [
@@ -26,8 +29,12 @@ if allowed_origins:
         allow_origins=allowed_origins,
         allow_credentials=False,
         allow_methods=["GET", "POST", "PUT", "OPTIONS"],
-        allow_headers=["Content-Type", "Authorization"],
+        allow_headers=["Content-Type", "Authorization", "Stripe-Signature"],
     )
+
+app.include_router(marketplace_router)
+app.include_router(payments_router)
+app.include_router(ar_router)
 
 GO_SESSIONS: list[dict] = []
 DECKS: dict[str, dict] = {}
@@ -36,7 +43,7 @@ MATCHES: dict[str, dict] = {}
 
 @app.get("/health")
 def health():
-    return {"status": "ok", "service": "dexforge", "version": "0.1.0"}
+    return {"status": "ok", "service": "dexforge", "version": "0.2.0"}
 
 
 @app.post("/api/cards/grade", response_model=GradeResult)
